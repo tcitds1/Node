@@ -1,4 +1,4 @@
-var http = require('http');
+var http = import('http');
 var fs  = require('fs');
 var path = require('path');
 var mime = require('mime');
@@ -55,4 +55,5 @@ var server = http.createServer(function(request, response) {
 server.listen(8080, function() {
   console.log('Server listening on port 8080.');
 });
+
 
