@@ -1,8 +1,8 @@
-var http = import('http');
-var fs  = require('fs');
-var path = require('path');
-var mime = require('mime');
-var cache = {};
+import http from 'http'
+import fs from 'fs'
+import path from 'path'
+import mime from 'mime'
+let cache = {};
 
 function send404(response) {
   response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -12,8 +12,8 @@ function send404(response) {
 
 function sendFile(response, filePath, fileContents) {
   response.writeHead(
-    200,
-    {'content-type': mime.getType(path.basename(filePath))}
+    200, 
+    {"content-type": mime.getType(path.basename(filePath))}
   );
   response.end(fileContents);
 }
@@ -52,8 +52,9 @@ var server = http.createServer(function(request, response) {
   serveStatic(response, cache, absPath);
 });
 
-server.listen(8080, function() {
-  console.log('Server listening on port 8080.');
+server.listen(3000, function() {
+  console.log("Server listening on port 3000.");
 });
 
-
+var chatServer = require('./lib/chat_server');
+chatServer.listen(server);
