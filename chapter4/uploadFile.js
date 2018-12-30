@@ -1,6 +1,7 @@
 var fs = require('fs')
 var http = require('http')
 var formidable = require('formidable');
+var path = require('path')
 
 var server = http.createServer(function (req, res) {
   if (req.url === '/') {
@@ -55,23 +56,17 @@ function uploadFile(req, res) {
     return
   }
   var form = new formidable.IncomingForm()
-  form.parse(req, function (err, field, file) {
-    console.log(field)
-    console.log(file)
-    res.end('complete')
+  form.uploadDir = __dirname
+  form.parse(req)
+  form.on('file', function(field, file) {
+    //rename the incoming file to the file's name
+    fs.rename(file.path, form.uploadDir + "/" + file.name, function (err) {
+      res.end('okokok')
+    });
+  });
+  form.on('progress', function (bytesReceived, bytesExpected) {
+    console.log('has received ' + Math.floor(bytesReceived / bytesExpected * 100))
   })
-  // form.parse(req)
-  // form.on('field', function (name, value) {
-  //   console.log(name)
-  //   console.log(value)
-  // })
-  // form.on('file', function (name, file) {
-  //   console.log(name)
-  //   console.log(file)
-  // })
-  // form.on('end', function () {
-  //   res.end('upload complete')
-  // })
 }
 
 server.listen(3000)
