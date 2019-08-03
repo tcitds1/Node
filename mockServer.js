@@ -57,7 +57,6 @@ app.all('*', function(req, res, next) {
   res.header("Content-Type", "application/json;charset=utf-8");
   next();
 });
-
 // 注册路由
 // 所有的路由会加上“／api”前缀
 app.use('/api', router);
