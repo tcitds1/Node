@@ -10,5 +10,18 @@ let reduce = (fn, initValue) => (array) => {
 };
 let add = (x, y) => { return x + y; };
 let sum = reduce(add, 0);
-console.log(prop('name')({ name: 'kurisu' }));
+// console.log(prop('name')({name: 'kurisu'}))
+// bind的用法
+let obja = {
+    a: 'hello,world',
+    fn: function () {
+        console.log(this.a);
+    }
+};
+let c = {
+    a: 'hello cccc'
+};
+obja.fn();
+obja.fn.bind(c)();
+// obja.fn()
 //# sourceMappingURL=testTs.js.map
