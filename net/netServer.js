@@ -16,6 +16,7 @@
 // server.listen(3000, '127.0.0.1', () => {
 //   console.log('打开服务器', server.address());
 // });
-
+const fs = require('fs')
 const os = require('os')
-console.log(os.cpus())
+console.log(os.networkInterfaces())
+// fs.writeFileSync(__dirname + '/1.txt', os.networkInterfaces().toString())
