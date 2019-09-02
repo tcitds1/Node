@@ -50,6 +50,7 @@ util.inherits(IncomingForm, EventEmitter);
 exports.IncomingForm = IncomingForm;
 
 IncomingForm.prototype.parse = function(req, cb) {
+  // 暂停req
   this.pause = function() {
     try {
       req.pause();
@@ -64,6 +65,7 @@ IncomingForm.prototype.parse = function(req, cb) {
     return true;
   };
 
+  // 继续
   this.resume = function() {
     try {
       req.resume();
@@ -110,6 +112,7 @@ IncomingForm.prototype.parse = function(req, cb) {
   }
 
   // Parse headers and setup the parser, ready to start listening for data.
+  // 2. 提取请求头中的content-length，并触发进度条progress事件
   this.writeHeaders(req.headers);
 
   // Start listening for data.

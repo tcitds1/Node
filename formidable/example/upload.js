@@ -3,7 +3,7 @@ var http = require('http'),
     util = require('util'),
     os = require('os'),
     formidable = common.formidable,
-    port = common.port,
+    port = 3000,
     server;
 
 server = http.createServer(function(req, res) {
@@ -21,7 +21,7 @@ server = http.createServer(function(req, res) {
         files = [],
         fields = [];
 
-    form.uploadDir = '__d';
+    form.uploadDir = __dirname;
 
     // form
     //   .on('field', function(field, value) {
