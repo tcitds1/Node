@@ -31,3 +31,15 @@ function factory() {
 let p = factory(Person, 'xg')
 console.log(p.age)
 p.sayName()
+
+function Person(name) {
+  this.name = name
+}
+Person.prototype = {
+  constructor: Person,
+  sayName: function () {
+    console.log(this.name)
+  }
+}
+let p1 = new Person('HAHA')
+p1.sayName()
