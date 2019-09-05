@@ -13,19 +13,36 @@
 
 <body>
 <div id="container"></div>
+<button class="cancel">cancel</button>
 <script>
   var count = 1;
   var container = document.getElementById('container');
-  function debounce(fn, wait) {
+  function debounce(fn, wait, immediate) {
     let timer
-    return function () {
+    let tn =  function () {
       let self = this
       let argumentsCopy = arguments
-      clearTimeout(timer)
-      timer = setTimeout(function () {
-        fn.apply(self, argumentsCopy)
-      }, wait)
+      if (timer) {
+        clearTimeout(timer)
+      }
+      if (immediate) {
+        // 如果已经执行过，不再执行
+        var callNow = !timer
+        timer = setTimeout(function () {
+          timer = null
+        }, wait)
+        if (callNow) fn.apply(self, argumentsCopy)
+      } else {
+        timer = setTimeout(function () {
+          fn.apply(self, argumentsCopy)
+        }, wait)
+      }
     }
+    tn.cancel = function () {
+      clearTimeout(timer)
+      timer = null
+    }
+    return tn
   }
 
   function getUserAction(e) {
@@ -33,8 +50,13 @@
     console.log(this)
     console.log(e)
   };
+  let d = debounce(getUserAction, 500, true)
+  container.onmousemove = d;
+  let cancelBtn = document.getElementsByClassName('cancel')[0];
+  cancelBtn.addEventListener('click', function () {
+    d.cancel()
+  })
 
-  container.onmousemove = debounce(getUserAction, 500);
 </script>
 </body>
 
