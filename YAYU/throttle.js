@@ -1,15 +1,10 @@
-// 第一版
-function throttle(func, wait) {
-  var context, args;
-  var previous = 0;
-
-  return function() {
-    var now = +new Date();
-    context = this;
-    args = arguments;
-    if (now - previous > wait) {
-      func.apply(context, args);
-      previous = now;
+function throttle (fn, await) {
+  let previous = 0
+  return function () {
+    let now = +new Date()
+    if (now > await + previous) {
+      fn.apply(this, arguments)
+      now = previous
     }
   }
 }
