@@ -5,20 +5,47 @@
  * @version: 1.0
  */
 let p = new Promise((resolve, reject) => {
-  console.log('haha')
 })
+
 function Promise1(fn) {
-  fn()
+  let self = this
+  self.reason = undefined
+  self.value = undefined
+  self.status = 'pending'
+  function resolve(value) {
+    if (self.status === 'pending') {
+      self.status = 'onFulfilled'
+      self.value = value
+    }
+  }
+  function reject(reason) {
+    if (self.status === 'pending') {
+      self.status = 'onRejected'
+      self.reson = reason
+    }
+  }
+  try {
+    fn(resolve, reject)
+  } catch (e) {
+    reject(e)
+  }
 }
-Promise1.then = function (tn) {
-  tn()
-}
-Promise1.catch = function (rn) {
-  rn()
+Promise1.prototype.then = function (onResolve, onReject) {
+  if (this.status === 'onFulfilled') {
+    onResolve(this.value)
+  }
+  if (this.status === 'onRejected') {
+    onReject(this.reson)
+  }
 }
 
-let c = new Promise1((resolve, reject) => {
-  console.log('xxxx')
-  resolve('x')
-  reject('y')
+let p1 = new Promise1((resolve, reject) => {
+  let k;
+  console.log(k.c)
+  resolve('yamadi')
+})
+p1.then(result => {
+  console.log(result)
+}, error => {
+  console.log(error)
 })
