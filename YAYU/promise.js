@@ -16,20 +16,20 @@ function Promise1(fn) {
   this.rejectQue = []
   function resolve(value) {
     if (self.status === 'pending') {
+      self.status = 'onFulfilled'
+      self.value = value
       self.resloveQue.forEach(fn => {
         fn()
       })
-      self.status = 'onFulfilled'
-      self.value = value
     }
   }
   function reject(reason) {
     if (self.status === 'pending') {
+      self.status = 'onRejected'
+      self.reson = reason
       self.rejectQue.forEach(fn => {
         fn()
       })
-      self.status = 'onRejected'
-      self.reson = reason
     }
   }
   try {
@@ -44,7 +44,7 @@ Promise1.prototype.then = function (onResolve, onReject) {
     this.resloveQue.push(function () {
       onResolve(self.value)
     })
-    this.resloveQue.push(function () {
+    this.rejectQue.push(function () {
       onReject(self.reason)
     })
   }
@@ -57,7 +57,6 @@ Promise1.prototype.then = function (onResolve, onReject) {
 }
 
 let p1 = new Promise1((resolve, reject) => {
-  let k;
   setTimeout(() => {
     resolve('yamadi')
   }, 2000)
@@ -65,6 +64,4 @@ let p1 = new Promise1((resolve, reject) => {
 })
 p1.then(result => {
   console.log(result)
-}, error => {
-  console.log(error)
 })
