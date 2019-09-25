@@ -12,14 +12,22 @@ function Promise1(fn) {
   self.reason = undefined
   self.value = undefined
   self.status = 'pending'
+  this.resloveQue = []
+  this.rejectQue = []
   function resolve(value) {
     if (self.status === 'pending') {
+      self.resloveQue.forEach(fn => {
+        fn()
+      })
       self.status = 'onFulfilled'
       self.value = value
     }
   }
   function reject(reason) {
     if (self.status === 'pending') {
+      self.rejectQue.forEach(fn => {
+        fn()
+      })
       self.status = 'onRejected'
       self.reson = reason
     }
@@ -31,6 +39,15 @@ function Promise1(fn) {
   }
 }
 Promise1.prototype.then = function (onResolve, onReject) {
+  let self = this
+  if (this.status === 'pending') {
+    this.resloveQue.push(function () {
+      onResolve(self.value)
+    })
+    this.resloveQue.push(function () {
+      onReject(self.reason)
+    })
+  }
   if (this.status === 'onFulfilled') {
     onResolve(this.value)
   }
@@ -41,8 +58,10 @@ Promise1.prototype.then = function (onResolve, onReject) {
 
 let p1 = new Promise1((resolve, reject) => {
   let k;
-  console.log(k.c)
-  resolve('yamadi')
+  setTimeout(() => {
+    resolve('yamadi')
+  }, 2000)
+  console.log('hsha')
 })
 p1.then(result => {
   console.log(result)
