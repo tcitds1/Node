@@ -19,6 +19,7 @@ class Dep {
 
 class Observer {
   constructor (data) {
+    console.log('new observer')
     this.walk(data)
   }
   walk (data) {
@@ -41,7 +42,6 @@ class Observer {
       set (newVal) {
         val = newVal
         child = observe(newVal)
-        console.log('new set .........')
         dep.notify()
       }
     })
@@ -74,17 +74,18 @@ class Watcher {
     this.ids[dep.id] = dep
   }
   update () {
+    console.log('update')
     this.run()
   }
   run () {
     let val = this.get()
     if (val !== this.val) {
-      this.cb.call(vm, val)
+      this.cb.call(this.vm, val)
     }
   }
   get () {
     Dep.target = this
-    let val = this.vm._data.param
+    let val = this.vm._data[this.param]
     Dep.target = null
     return val
   }
@@ -92,8 +93,8 @@ class Watcher {
 
 class Vue {
   constructor(obj) {
-    this._data = obj.data
-    observe(this._data)
+    let data = (this._data = obj.data)
+    observe(data)
     this.init()
   }
   $watch (key, cb) {
@@ -105,11 +106,10 @@ class Vue {
         enumerable: true,
         configurable: true,
         get () {
-          console.log('vue get')
-          return this._data.key
+          return this._data[key]
         },
         set (newVal) {
-          this._data.key = newVal
+          this._data[key] = newVal
         }
       })
     })
@@ -125,4 +125,4 @@ let demo = new Vue({
 demo.$watch('a', function (newVal) {
   console.log('new val is', newVal)
 })
-demo.a = 100
+demo.a = 66
