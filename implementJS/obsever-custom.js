@@ -1,3 +1,4 @@
+import { arrayMethod } from './array'
 let uid = 0
 class Dep {
   constructor() {
@@ -19,8 +20,13 @@ class Dep {
 
 class Observer {
   constructor (data) {
-    console.log('new observer')
-    this.walk(data)
+    this.dep = new Dep()
+    if (Array.isArray(data)) {
+      data.__ob__ = this
+      data.__proto__ = arrayMethod
+    } else {
+      this.walk(data)
+    }
   }
   walk (data) {
     Object.keys(data).forEach(key => {
