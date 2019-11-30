@@ -1,0 +1,25 @@
+{
+  "name": "Node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mockServer.js",
+  "dependencies": {
+    "node": "^11.12.0",
+    "formidable": "^1.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tcitds1/Node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tcitds1/Node/issues"
+  },
+  "homepage": "https://github.com/tcitds1/Node#readme"
+}

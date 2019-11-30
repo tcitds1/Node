@@ -1,20 +1,32 @@
-public class Stack {
-    private String[] items;
-    private int n;
-    private int count; // 几个
-    public ArrayStack(n) {
-        items = new String[n];
-        this.n = n;
-        this.count = count;
+class Stack {
+  private int count;
+  private int n;
+  private String[] items;
+  
+  public void initStack(int n) {
+    this.items = new String[n];
+    this.count = 0;
+    this.n = n;
+  }
+  
+  public void push(String item) {
+    if (this.n == this.count) {
+      System.out.println("栈空间不够la");
+      return;
     }
-    public void push(String item) {
-        if (this.n == this.count) return
-        this.items[count] = item
-        this.count ++
+    this.items[count] = item;
+    this.count++;
+  }
+
+  public String pop() {
+    if (this.count == 0) {
+      return null;
     }
-    public String pop(String item) {
-        if (this.count == 0) {
-            
-        }
-    }
+    String popItem = this.items[count - 1];
+    this.count--;
+    return popItem;
+  }
+
+  static public void main(String argus[]) {
+  }
 }

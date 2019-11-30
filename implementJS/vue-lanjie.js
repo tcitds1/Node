@@ -26,7 +26,7 @@ methodsToPatch.forEach(function (method) {
   const original = arrayProto[method]
   def(arrayMethods, method, function mutator (...args) {
     const result = original.apply(this, args)
-    // const ob = this.__ob__
+    const ob = this.__ob__
     let inserted
     switch (method) {
       case 'push':
@@ -37,10 +37,9 @@ methodsToPatch.forEach(function (method) {
         inserted = args.slice(2)
         break
     }
-    // if (inserted) ob.observeArray(inserted)
-    // // notify change
-    // ob.dep.notify()
-    console.log('yahello')
+    if (inserted) ob.observeArray(inserted)
+    // notify change
+    ob.dep.notify()
     return result
   })
 })
