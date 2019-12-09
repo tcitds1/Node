@@ -6,7 +6,6 @@ class HelloWorld {
         merge(arrays, 0, 3, 7, temp);
     }
     public static int[] mergeSort(int[] arrays, int L, int R) {
-
         
     }
     public static void merge(int[] arrays, int left, int middle, int right, int[] temp) {
